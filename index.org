@@ -1,0 +1,4 @@
+#+TITLE: Weekly C++ Talks
+
+* Structured bindings
+[[./20200618-structured-bindings/index.md][notes]]

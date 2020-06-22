@@ -3,7 +3,6 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2020-06-22 pon 22:12 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Structured Bindings</title>
@@ -225,26 +224,26 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org38f7c0c">1. What are structured bindings</a></li>
-<li><a href="#org643470b">2. Names for stuff</a></li>
-<li><a href="#orgf66c220">3. Example 1 - destructuring an array</a></li>
-<li><a href="#org62db640">4. Example 2 - binding to data members of a struct</a></li>
-<li><a href="#org66b08b3">5. Example 3 - destructuring a tuple</a></li>
-<li><a href="#orge2a0873">6. It&rsquo;s C++ - things are not that simple</a></li>
-<li><a href="#orge584332">7. Example 4 - binding to evaluation results</a></li>
-<li><a href="#org0ed0923">8. Key takeaways</a></li>
-<li><a href="#org5c0d7fc">9. Example 5 - <code>std::array</code> ??!!</a></li>
-<li><a href="#orge2f30cc">10. How is the destructuring algorithm chosen?</a></li>
-<li><a href="#org1bb2a3a">11. Adding tuple-like interface for custom types</a></li>
-<li><a href="#orgf5b83a6">12. Example 6 - binding for user-defined type</a></li>
-<li><a href="#org0f12e8d">13. Example 6 - continued</a></li>
+<li><a href="#org81e3d8b">1. What are structured bindings</a></li>
+<li><a href="#orgbd3cf15">2. Names for stuff</a></li>
+<li><a href="#org442cf14">3. Example 1 - destructuring an array</a></li>
+<li><a href="#org74cfb87">4. Example 2 - binding to data members of a struct</a></li>
+<li><a href="#orgfdaf7a5">5. Example 3 - destructuring a tuple</a></li>
+<li><a href="#org3e65ac2">6. It&rsquo;s C++ - things are not that simple</a></li>
+<li><a href="#orgee61ce2">7. Example 4 - binding to evaluation results</a></li>
+<li><a href="#org8d58cd0">8. Key takeaways</a></li>
+<li><a href="#orgff72834">9. Example 5 - <code>std::array</code> ??!!</a></li>
+<li><a href="#org317182e">10. How is the destructuring algorithm chosen?</a></li>
+<li><a href="#org6bb42c8">11. Adding tuple-like interface for custom types</a></li>
+<li><a href="#org669b809">12. Example 6 - binding for user-defined type</a></li>
+<li><a href="#orgae5b7ab">13. Example 6 - continued</a></li>
 </ul>
 </div>
 </div>
 
 
-<div id="outline-container-org38f7c0c" class="outline-2">
-<h2 id="org38f7c0c"><span class="section-number-2">1</span> What are structured bindings</h2>
+<div id="outline-container-org81e3d8b" class="outline-2">
+<h2 id="org81e3d8b"><span class="section-number-2">1</span> What are structured bindings</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #859900; font-weight: bold;">auto</span> <span style="color: #268bd2;">[</span>x_1, <span style="color: #405A61;">/*</span><span style="color: #405A61;">...</span><span style="color: #405A61;">*/</span>, x_n<span style="color: #268bd2;">]</span> = expression;
@@ -265,8 +264,8 @@ bindings.
 </div>
 </div>
 
-<div id="outline-container-org643470b" class="outline-2">
-<h2 id="org643470b"><span class="section-number-2">2</span> Names for stuff</h2>
+<div id="outline-container-orgbd3cf15" class="outline-2">
+<h2 id="orgbd3cf15"><span class="section-number-2">2</span> Names for stuff</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-c++">cv-<span style="color: #859900; font-weight: bold;">auto</span> ref-spec <span style="color: #268bd2;">[</span>identifier-list<span style="color: #268bd2;">]</span> = expression;
@@ -293,8 +292,8 @@ bindings.
 </div>
 </div>
 
-<div id="outline-container-orgf66c220" class="outline-2">
-<h2 id="orgf66c220"><span class="section-number-2">3</span> Example 1 - destructuring an array</h2>
+<div id="outline-container-org442cf14" class="outline-2">
+<h2 id="org442cf14"><span class="section-number-2">3</span> Example 1 - destructuring an array</h2>
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #b58900;">int</span> <span style="color: #839496;">arr</span><span style="color: #268bd2;">[</span><span style="color: #d33682; font-weight: bold;">2</span><span style="color: #268bd2;">]</span> = <span style="color: #268bd2;">{</span> <span style="color: #405A61;">/*</span><span style="color: #405A61;">init</span><span style="color: #405A61;">*/</span> <span style="color: #268bd2;">}</span>;
@@ -315,8 +314,8 @@ The number of elements in the identifier list has to match the number of element
 </div>
 </div>
 
-<div id="outline-container-org62db640" class="outline-2">
-<h2 id="org62db640"><span class="section-number-2">4</span> Example 2 - binding to data members of a struct</h2>
+<div id="outline-container-org74cfb87" class="outline-2">
+<h2 id="org74cfb87"><span class="section-number-2">4</span> Example 2 - binding to data members of a struct</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">S</span> <span style="color: #268bd2;">{</span>
@@ -346,8 +345,8 @@ members of the struct/class you&rsquo;re destructuring.
 </div>
 </div>
 
-<div id="outline-container-org66b08b3" class="outline-2">
-<h2 id="org66b08b3"><span class="section-number-2">5</span> Example 3 - destructuring a tuple</h2>
+<div id="outline-container-orgfdaf7a5" class="outline-2">
+<h2 id="orgfdaf7a5"><span class="section-number-2">5</span> Example 3 - destructuring a tuple</h2>
 <div class="outline-text-2" id="text-5">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">tuple</span><span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::size_t, <span style="color: #b58900;">char</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">t</span><span style="color: #268bd2;">{</span><span style="color: #405A61;">/*</span><span style="color: #405A61;">init</span><span style="color: #405A61;">*/</span><span style="color: #268bd2;">}</span>;
@@ -368,8 +367,8 @@ Destructuring tuple is similiar to destructuring a struct, but the compiler goes
 </div>
 </div>
 
-<div id="outline-container-orge2a0873" class="outline-2">
-<h2 id="orge2a0873"><span class="section-number-2">6</span> It&rsquo;s C++ - things are not that simple</h2>
+<div id="outline-container-org3e65ac2" class="outline-2">
+<h2 id="org3e65ac2"><span class="section-number-2">6</span> It&rsquo;s C++ - things are not that simple</h2>
 <div class="outline-text-2" id="text-6">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">tuple</span><span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::size_t, <span style="color: #b58900;">char</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">t</span><span style="color: #268bd2;">{</span><span style="color: #405A61;">/*</span><span style="color: #405A61;">init</span><span style="color: #405A61;">*/</span><span style="color: #268bd2;">}</span>;
@@ -397,8 +396,8 @@ created when evaluating the expression we&rsquo;re binding to.
 </div>
 </div>
 
-<div id="outline-container-orge584332" class="outline-2">
-<h2 id="orge584332"><span class="section-number-2">7</span> Example 4 - binding to evaluation results</h2>
+<div id="outline-container-orgee61ce2" class="outline-2">
+<h2 id="orgee61ce2"><span class="section-number-2">7</span> Example 4 - binding to evaluation results</h2>
 <div class="outline-text-2" id="text-7">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #b58900;">Vector2D</span> <span style="color: #839496;">a</span> = <span style="color: #268bd2;">{</span><span style="color: #405A61;">/*</span><span style="color: #405A61;">init</span><span style="color: #405A61;">*/</span><span style="color: #268bd2;">}</span>;
@@ -431,8 +430,8 @@ compiler magic. That&rsquo;s why they&rsquo;re not explicitly reference types.
 </div>
 </div>
 
-<div id="outline-container-org0ed0923" class="outline-2">
-<h2 id="org0ed0923"><span class="section-number-2">8</span> Key takeaways</h2>
+<div id="outline-container-org8d58cd0" class="outline-2">
+<h2 id="org8d58cd0"><span class="section-number-2">8</span> Key takeaways</h2>
 <div class="outline-text-2" id="text-8">
 <ul class="org-ul">
 <li>You may already have seen this - e.g. in Python; the concept is not C++ specific.</li>
@@ -452,8 +451,8 @@ compiler magic. That&rsquo;s why they&rsquo;re not explicitly reference types.
 </div>
 </div>
 
-<div id="outline-container-org5c0d7fc" class="outline-2">
-<h2 id="org5c0d7fc"><span class="section-number-2">9</span> Example 5 - <code>std::array</code> ??!!</h2>
+<div id="outline-container-orgff72834" class="outline-2">
+<h2 id="orgff72834"><span class="section-number-2">9</span> Example 5 - <code>std::array</code> ??!!</h2>
 <div class="outline-text-2" id="text-9">
 <p>
 So how does this work?
@@ -475,8 +474,8 @@ compiler on how to destructure our own types also.
 </div>
 </div>
 
-<div id="outline-container-orge2f30cc" class="outline-2">
-<h2 id="orge2f30cc"><span class="section-number-2">10</span> How is the destructuring algorithm chosen?</h2>
+<div id="outline-container-org317182e" class="outline-2">
+<h2 id="org317182e"><span class="section-number-2">10</span> How is the destructuring algorithm chosen?</h2>
 <div class="outline-text-2" id="text-10">
 
 <div class="figure">
@@ -486,7 +485,14 @@ compiler on how to destructure our own types also.
 
 <div class="NOTES">
 <p>
-There are three distinct ways the compiler can destructure an expression for us. If the type is a native array, then destructuring means binding to the elements of the array in sequence. If it is not an array, then the compiler checks if a template specialization of std::tuple<sub>size</sub> is defined for our type. If it is not, then compiler tries to destructure it by accessing data members. If the std::tuple<sub>size</sub> template is specialized for our type though, then compiler starts to further look for the elements it needs to create a binding. Let&rsquo;s now look at what those elements are.
+There are three distinct ways the compiler can destructure an expression for us.
+If the type is a native array, then destructuring means binding to the elements
+of the array in sequence. If it is not an array, then the compiler checks if a
+template specialization of <code>std::tuple_size</code> is defined for our type. If it is
+not, then compiler tries to destructure it by accessing data members. If the
+<code>std::tuple_size</code> template is specialized for our type though, then compiler
+starts to further look for the elements it needs to create a binding. Let&rsquo;s now
+look at what those elements are.
 </p>
 
 </div>
@@ -494,8 +500,8 @@ There are three distinct ways the compiler can destructure an expression for us.
 </div>
 
 
-<div id="outline-container-org1bb2a3a" class="outline-2">
-<h2 id="org1bb2a3a"><span class="section-number-2">11</span> Adding tuple-like interface for custom types</h2>
+<div id="outline-container-org6bb42c8" class="outline-2">
+<h2 id="org6bb42c8"><span class="section-number-2">11</span> Adding tuple-like interface for custom types</h2>
 <div class="outline-text-2" id="text-11">
 <p>
 When <code>E</code> is a user defined type, the following need to exist:
@@ -517,8 +523,8 @@ Finally, the <code>get</code> functions are used to obtain the values of each el
 </div>
 </div>
 
-<div id="outline-container-orgf5b83a6" class="outline-2">
-<h2 id="orgf5b83a6"><span class="section-number-2">12</span> Example 6 - binding for user-defined type</h2>
+<div id="outline-container-org669b809" class="outline-2">
+<h2 id="org669b809"><span class="section-number-2">12</span> Example 6 - binding for user-defined type</h2>
 <div class="outline-text-2" id="text-12">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #d33682; font-weight: bold;">experiment</span> <span style="color: #268bd2;">{</span>
@@ -534,8 +540,8 @@ Finally, the <code>get</code> functions are used to obtain the values of each el
 </div>
 </div>
 
-<div id="outline-container-org0f12e8d" class="outline-2">
-<h2 id="org0f12e8d"><span class="section-number-2">13</span> Example 6 - continued</h2>
+<div id="outline-container-orgae5b7ab" class="outline-2">
+<h2 id="orgae5b7ab"><span class="section-number-2">13</span> Example 6 - continued</h2>
 <div class="outline-text-2" id="text-13">
 <div class="org-src-container">
 <pre class="src src-c++"><span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #d33682; font-weight: bold;">std</span> <span style="color: #268bd2;">{</span>
@@ -554,7 +560,6 @@ Finally, the <code>get</code> functions are used to obtain the values of each el
 <div id="postamble" class="status">
 <p class="date">Date: 2020-06-18</p>
 <p class="author">Author: Łukasz Maciejewski</p>
-<p class="date">Created: 2020-06-22 pon 22:12</p>
 </div>
 </body>
 </html>
