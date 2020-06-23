@@ -1,5 +1,5 @@
 #+TITLE: Weekly C++ Talks
 
 * Structured bindings
-[[./20200618-structured-bindings/index.html][notes]]
-[[https://github.com/weekly-cpp/weekly-cpp.github.io/blob/master/20200618-structured-bindings/binding_to_user_defined_type.cpp][binding to user type example]]
+ * [[./20200618-structured-bindings/index.html][notes]]
+ * [[https://github.com/weekly-cpp/weekly-cpp.github.io/blob/master/20200618-structured-bindings/binding_to_user_defined_type.cpp][example: binding to user type]]

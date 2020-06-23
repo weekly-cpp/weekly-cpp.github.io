@@ -1,7 +1,9 @@
+// g++ -Wall -Wextra -std=c++17 -g binding_to_user_defined_type.cpp -o binding
+
 #include <iostream>
 #include <tuple>
 
-namespace experimental {
+namespace weekly_cpp {
 class Vector2D
 {
   double x_;
@@ -40,10 +42,10 @@ Vector2D operator+(const Vector2D& lhs, const Vector2D& rhs) {
 
 namespace std {
 template<>
-class tuple_size<::exp::Vector2D> : public std::integral_constant<std::size_t, 2> {};
+class tuple_size<weekly_cpp::Vector2D> : public std::integral_constant<std::size_t, 2> {};
 
 template<std::size_t pos>
-class tuple_element<pos, exp::Vector2D> {
+class tuple_element<pos, weekly_cpp::Vector2D> {
   static_assert(pos == 0 or pos == 1, "Invalid index!");
 public:
   using type = double;
@@ -51,8 +53,8 @@ public:
 } // namespace std
 
 int main() {
-  exp::Vector2D a = {1.0, 2.0};
-  exp::Vector2D b = {-1.0, 3.0};
+  weekly_cpp::Vector2D a = {1.0, 2.0};
+  weekly_cpp::Vector2D b = {-1.0, 3.0};
   auto c = a + b;
   std::cout << "vector: " << c.x() << " " << c.y() << '\n';
 
