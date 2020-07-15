@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Attributes</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Łukasz Maciejewski" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Attributes</h1>
+
+<div id="outline-container-org974b79d" class="outline-2">
+<h2 id="org974b79d">What are attributes?</h2>
+<div class="outline-text-2" id="text-org974b79d">
+<ul class="org-ul">
+<li>provide additional information to the compiler</li>
+<li>may influence code generation</li>
+<li>may influence compiler warnings</li>
+<li>do not change the meaning of the program</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0cbf83c" class="outline-2">
+<h2 id="org0cbf83c">Compiler-dependent syntax</h2>
+<div class="outline-text-2" id="text-org0cbf83c">
+<ul class="org-ul">
+<li>MSVC</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">__declspec</span><span style="color: #268bd2;">(</span>attribute-name<span style="color: #268bd2;">)</span>
+</pre>
+</div>
+<ul class="org-ul">
+<li>GCC / Clang</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">__attribute__</span><span style="color: #268bd2;">(</span><span style="color: #d33682;">(</span>attribute-name<span style="color: #d33682;">)</span><span style="color: #268bd2;">)</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org54fc9c9" class="outline-2">
+<h2 id="org54fc9c9">Unified syntax</h2>
+<div class="outline-text-2" id="text-org54fc9c9">
+<p>
+Introduced in C++11
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span>attribute-name<span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org92fec8c" class="outline-2">
+<h2 id="org92fec8c">Unified syntax</h2>
+<div class="outline-text-2" id="text-org92fec8c">
+<p>
+Also, multiple attributes in a single statement are possible:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span>attribute1, attribute2<span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1801c04" class="outline-2">
+<h2 id="org1801c04">Unified syntax</h2>
+<div class="outline-text-2" id="text-org1801c04">
+<p>
+Compiler-specific attributes are namespaced, e.g. for GCC:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">gnu</span>::always_inline<span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga920cb3" class="outline-2">
+<h2 id="orga920cb3">Attributes added to the standard</h2>
+<div class="outline-text-2" id="text-orga920cb3">
+</div>
+<div id="outline-container-orgabd820d" class="outline-3">
+<h3 id="orgabd820d">C++11</h3>
+<div class="outline-text-3" id="text-orgabd820d">
+</div>
+<div id="outline-container-orgc1a1786" class="outline-4">
+<h4 id="orgc1a1786"><code>[[noreturn]]</code></h4>
+<div class="outline-text-4" id="text-orgc1a1786">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">noreturn</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">terminate</span><span style="color: #268bd2;">()</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">...</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+<p>
+Indicates that function traps control flow somehow and will not return from a call.
+</p>
+</div>
+</div>
+<div id="outline-container-org786e94e" class="outline-4">
+<h4 id="org786e94e"><code>[[carries_dependency]]</code></h4>
+<div class="outline-text-4" id="text-org786e94e">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">foo</span><span style="color: #268bd2;">(</span><span style="color: #b58900;">int</span>&amp; <span style="color: #d33682;">[</span><span style="color: #859900;">[</span><span style="color: #d33682; font-weight: bold;">carries_dependency</span><span style="color: #859900;">]</span><span style="color: #d33682;">]</span> <span style="color: #839496;">value</span><span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+<p>
+Indicates that logic related to synchronization primitives used e.g. by atomic operation should carry over into the function call.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgfc60f10" class="outline-3">
+<h3 id="orgfc60f10">C++14</h3>
+<div class="outline-text-3" id="text-orgfc60f10">
+</div>
+<div id="outline-container-org627d3d3" class="outline-4">
+<h4 id="org627d3d3"><code>[[deprecated]]</code></h4>
+<div class="outline-text-4" id="text-org627d3d3">
+<p>
+Also <code>[[deprecated(reason)]]</code>. Used to indicate that a class, function, enum, variable, typedef or function parameter should not be used and may be removed in future. Generates a compiler warning.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org707260c" class="outline-3">
+<h3 id="org707260c">C++17</h3>
+<div class="outline-text-3" id="text-org707260c">
+</div>
+<div id="outline-container-org9bb7860" class="outline-4">
+<h4 id="org9bb7860"><code>[[nodiscard]]</code></h4>
+<div class="outline-text-4" id="text-org9bb7860">
+<p>
+Used to indicate that ignoring a value returned by a function should not be ignored. Generates a compiler warning with <code>-Wunused-result</code> (enabled by default in GCC 10).
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">nodiscard</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">foo</span><span style="color: #268bd2;">()</span>;
+</pre>
+</div>
+
+<p>
+This attribute can also be applied to classes and class constuctors, although the behaviour is not consistent in this case.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3b3c6f0" class="outline-4">
+<h4 id="org3b3c6f0"><code>[[fallthrough]]</code></h4>
+<div class="outline-text-4" id="text-org3b3c6f0">
+<p>
+With compiler warning enabled, all missing <code>break</code> statements in <code>switch</code> statements are reported by the compiler. By writting <code>[[fallthrough]]</code> at the position a <code>break</code> statement would otherwise be,
+we inform the compiler that this is what we want.
+</p>
+
+
+<p>
+This is NOT a fallthrough:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">do_stuff</span><span style="color: #268bd2;">(</span><span style="color: #b58900;">int</span> <span style="color: #839496;">param</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #859900; font-weight: bold;">switch</span><span style="color: #d33682;">(</span>param<span style="color: #d33682;">)</span> <span style="color: #d33682;">{</span>
+  <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #d33682; font-weight: bold;">0</span>: <span style="color: #405A61;">// </span><span style="color: #405A61;">grouping labels is NOT a fall-</span>
+  <span style="color: #859900; font-weight: bold;">default</span>: <span style="color: #405A61;">// </span><span style="color: #405A61;">-through</span>
+    foo<span style="color: #859900;">()</span>;
+  <span style="color: #d33682;">}</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2eef1d2" class="outline-4">
+<h4 id="org2eef1d2"><code>[[fallthrough]]</code></h4>
+<div class="outline-text-4" id="text-org2eef1d2">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">do_stuff</span><span style="color: #268bd2;">(</span><span style="color: #b58900;">int</span> <span style="color: #839496;">param</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #859900; font-weight: bold;">switch</span> <span style="color: #d33682;">(</span>param<span style="color: #d33682;">)</span> <span style="color: #d33682;">{</span>
+  <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #d33682; font-weight: bold;">0</span>:
+    extra_foo<span style="color: #859900;">()</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">THIS IS A FALLTHROUG</span>
+  <span style="color: #859900; font-weight: bold;">default</span>:
+    foo<span style="color: #859900;">()</span>;
+  <span style="color: #d33682;">}</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4baf651" class="outline-4">
+<h4 id="org4baf651"><code>[[fallthrough]]</code></h4>
+<div class="outline-text-4" id="text-org4baf651">
+<div class="org-src-container">
+<pre class="src src-c++">
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">do_stuff</span><span style="color: #268bd2;">(</span><span style="color: #b58900;">int</span> <span style="color: #839496;">param</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #859900; font-weight: bold;">switch</span> <span style="color: #d33682;">(</span>param<span style="color: #d33682;">)</span> <span style="color: #d33682;">{</span>
+  <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #d33682; font-weight: bold;">0</span>;
+    extra_foo<span style="color: #859900;">()</span>;
+    <span style="color: #859900;">[</span><span style="color: #268bd2;">[</span><span style="color: #d33682; font-weight: bold;">fallthrough</span><span style="color: #268bd2;">]</span><span style="color: #859900;">]</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">This makes your compiler happy!</span>
+  <span style="color: #859900; font-weight: bold;">default</span>:
+    foo<span style="color: #859900;">()</span>;
+<span style="color: #d33682;">}</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c9814e" class="outline-4">
+<h4 id="org1c9814e"><code>[[maybe_unused]]</code></h4>
+<div class="outline-text-4" id="text-org1c9814e">
+<p>
+A proper way to silence an &ldquo;unused&rdquo; warning from the compiler - usually for variables or unused functions.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">maybe_unused</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span> <span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #839496;">debug_msg</span> = <span style="color: #405A61;">/* </span><span style="color: #405A61;">some debug info</span><span style="color: #405A61;"> */</span>;
+<span style="color: #d33682; font-weight: bold;">DEBUG_PRINT</span><span style="color: #268bd2;">(</span>debug_msg<span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgec1b42c" class="outline-3">
+<h3 id="orgec1b42c">C++20</h3>
+<div class="outline-text-3" id="text-orgec1b42c">
+</div>
+<div id="outline-container-orgec57096" class="outline-4">
+<h4 id="orgec57096"><code>[[nodiscard(reason)]]</code></h4>
+<div class="outline-text-4" id="text-orgec57096">
+<p>
+Same as for C++17, but compiler will probably print the <code>reason</code> as part of the warning.
+</p>
+</div>
+</div>
+<div id="outline-container-org29c9f52" class="outline-4">
+<h4 id="org29c9f52"><code>[[likely]]</code> / <code>[[unlikely]]</code></h4>
+<div class="outline-text-4" id="text-org29c9f52">
+<p>
+Marks a block of code as likely or unlikely to be executed. Provides a <b>hint</b> to the optimizer.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>very_likey_to_be_TRUE_in_most_cases<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">likely</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">handle likely case</span>
+<span style="color: #268bd2;">}</span> <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">the unlikely case</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>very_likely_to_be_FALSE_in_most_cases<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">the rare true case</span>
+<span style="color: #268bd2;">}</span> <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">likely</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">the more common false case</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span>very_unlikely_error_condition<span style="color: #268bd2;">)</span> <span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">unlikely</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">handle error</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge2d32ca" class="outline-4">
+<h4 id="orge2d32ca"><code>[[no_unique_address]]</code></h4>
+<div class="outline-text-4" id="text-orge2d32ca">
+<p>
+Allows for optimizing object size in specialized cases. Stateless allocators are
+mentioned as a major use case.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Empty</span> <span style="color: #268bd2;">{}</span>;
+<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">S1</span> <span style="color: #268bd2;">{</span>
+    <span style="color: #b58900;">int</span> <span style="color: #839496;">x</span>;
+    <span style="color: #d33682;">[</span><span style="color: #859900;">[</span><span style="color: #d33682; font-weight: bold;">no_unique_address</span><span style="color: #859900;">]</span><span style="color: #d33682;">]</span> <span style="color: #b58900;">Empty</span> <span style="color: #839496;">e</span>;
+<span style="color: #268bd2;">}</span>;
+<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">S2</span> <span style="color: #268bd2;">{</span> <span style="color: #b58900;">int</span> <span style="color: #839496;">x</span>; <span style="color: #268bd2;">}</span>;
+<span style="color: #859900; font-weight: bold;">static_assert</span><span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">sizeof</span><span style="color: #d33682;">(</span>S1<span style="color: #d33682;">)</span> == <span style="color: #859900; font-weight: bold;">sizeof</span><span style="color: #d33682;">(</span>S2<span style="color: #d33682;">)</span><span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0dcccc7" class="outline-2">
+<h2 id="org0dcccc7">Checking attribute support</h2>
+<div class="outline-text-2" id="text-org0dcccc7">
+<p>
+GCC and clang provide a built-in macro for detecting attribute support.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #cb4b16; font-weight: bold;">#if</span> <span style="color: #cb4b16; font-weight: bold;">__has_cpp_attribute</span><span style="color: #268bd2;">(</span>nodiscard<span style="color: #268bd2;">)</span>
+<span style="color: #cb4b16; font-weight: bold;">#define</span> <span style="color: #839496;">NODISCARD</span> <span style="color: #268bd2;">[</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">nodiscard</span><span style="color: #d33682;">]</span><span style="color: #268bd2;">]</span>
+<span style="color: #cb4b16; font-weight: bold;">#else</span>
+<span style="color: #cb4b16; font-weight: bold;">#define</span> <span style="color: #839496;">NODISCARD</span>
+<span style="color: #cb4b16; font-weight: bold;">#endif</span>
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
