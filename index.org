@@ -3,3 +3,15 @@
 * Structured bindings
  * [[./20200618-structured-bindings/index.html][notes]]
  * [[https://github.com/weekly-cpp/weekly-cpp.github.io/blob/master/20200618-structured-bindings/binding_to_user_defined_type.cpp][example: binding to user type]]
+
+* The good old ~if~
+ * [[./20200625-the_good_old_if/index.html][notes]]
+
+* Attributes
+ * [[./20200702-attributes/index.html][notes]]
+
+* Intro to ~std::variant~
+ * [[./20200709-variant_pt1/index.html][notes]]
+
+* Re-visiting ~std::variant~
+ * [[./20200716-variant_pt2/index.html][notes]]
