@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Intro to <code>std::variant</code></title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="Łukasz Maciejewski" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+// @license magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&amp;dn=gpl-3.0.txt GPL-v3-or-Later
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+// @license-end
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Intro to <code>std::variant</code></h1>
+
+<div id="outline-container-orgbfb45b5" class="outline-2">
+<h2 id="orgbfb45b5">Perspectives on variant</h2>
+<div class="outline-text-2" id="text-orgbfb45b5">
+</div>
+<div id="outline-container-org44b32d4" class="outline-3">
+<h3 id="org44b32d4">Type-safe union</h3>
+<div class="outline-text-3" id="text-org44b32d4">
+<p>
+Or optimizing memory usage.
+</p>
+</div>
+<div id="outline-container-org0271ab1" class="outline-4">
+<h4 id="org0271ab1">Things we shouldn&rsquo;t do with unions &#x2026;</h4>
+<div class="outline-text-4" id="text-org0271ab1">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">UnsafeFloat</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #b58900;">int</span> <span style="color: #839496;">i</span>;
+  <span style="color: #b58900;">float</span> <span style="color: #839496;">f</span>;
+<span style="color: #268bd2;">}</span>;
+
+<span style="color: #b58900;">UnsafeFloat</span> <span style="color: #839496;">u</span>;
+u.f = <span style="color: #d33682; font-weight: bold;">123.4f</span>;
+<span style="color: #b58900;">int</span> <span style="color: #839496;">x</span> = u.i &amp; <span style="color: #268bd2;">(</span><span style="color: #d33682;">(</span><span style="color: #d33682; font-weight: bold;">1</span> &lt;&lt; <span style="color: #d33682; font-weight: bold;">23</span><span style="color: #d33682;">)</span> - <span style="color: #d33682; font-weight: bold;">1</span><span style="color: #268bd2;">)</span>;
+<span style="color: #405A61;">// </span><span style="color: #405A61;">...</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org675986f" class="outline-4">
+<h4 id="org675986f">&#x2026; are things we simply cannot do with variant</h4>
+<div class="outline-text-4" id="text-org675986f">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #b58900;">float</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+v = <span style="color: #d33682; font-weight: bold;">123.4f</span>;
+<span style="color: #b58900;">int</span> <span style="color: #839496;">x</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #268bd2;">&gt;(</span>v<span style="color: #268bd2;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">throws an exception</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org28f6b43" class="outline-4">
+<h4 id="org28f6b43">Union can barely hold non-trivial types &#x2026;</h4>
+<div class="outline-text-4" id="text-org28f6b43">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">Nontrivial</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #839496;">str</span>;
+  <span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">vector</span><span style="color: #d33682;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #d33682;">&gt;</span> <span style="color: #839496;">vec</span>;
+  ~<span style="color: #268bd2;">Nontrivial</span><span style="color: #d33682;">()</span> <span style="color: #d33682;">{}</span>
+<span style="color: #268bd2;">}</span>;
+
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">foo</span><span style="color: #268bd2;">()</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #b58900;">Nontrivial</span> <span style="color: #839496;">u</span> = <span style="color: #d33682;">{</span><span style="color: #2aa198;">"abc"</span><span style="color: #d33682;">}</span>;
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">do stuff with string</span>
+  u.str.~basic_string<span style="color: #d33682;">()</span>;
+  <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #d33682;">(</span>&amp;s.vec<span style="color: #d33682;">)</span> <span style="color: #d33682; font-weight: bold;">std</span>::vector<span style="color: #d33682;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #d33682;">&gt;(</span><span style="color: #859900;">{</span><span style="color: #d33682; font-weight: bold;">1</span>, <span style="color: #d33682; font-weight: bold;">2</span>, <span style="color: #d33682; font-weight: bold;">3</span><span style="color: #859900;">}</span><span style="color: #d33682;">)</span>;
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">...</span>
+  u.vec.~vector<span style="color: #d33682;">()</span>;
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge62333a" class="outline-4">
+<h4 id="orge62333a">&#x2026; whereas variant handles them just fine</h4>
+<div class="outline-text-4" id="text-orge62333a">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">foo</span><span style="color: #268bd2;">()</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #d33682;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::string, <span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">vector</span><span style="color: #859900;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #859900;">&gt;</span><span style="color: #d33682;">&gt;</span> <span style="color: #839496;">v</span> = <span style="color: #2aa198;">"abc"</span>;
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">do stuff with string</span>
+  v = <span style="color: #d33682;">{</span><span style="color: #d33682; font-weight: bold;">1</span>, <span style="color: #d33682; font-weight: bold;">2</span>, <span style="color: #d33682; font-weight: bold;">3</span><span style="color: #d33682;">}</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">~string() called automatically</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">...</span>
+  <span style="color: #405A61;">// </span><span style="color: #405A61;">~vector() called automatically</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org75f0cfa" class="outline-3">
+<h3 id="org75f0cfa">Disjoined sum type</h3>
+<div class="outline-text-3" id="text-org75f0cfa">
+</div>
+<div id="outline-container-org67776b7" class="outline-4">
+<h4 id="org67776b7">Example use-case</h4>
+<div class="outline-text-4" id="text-org67776b7">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">QuadraticEquation</span>;
+
+<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">NoSolutions</span> <span style="color: #268bd2;">{}</span>;
+<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">OneSolution</span> <span style="color: #268bd2;">{</span> <span style="color: #b58900;">double</span> <span style="color: #839496;">x</span> <span style="color: #268bd2;">}</span>;
+<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">TwoSolutions</span> <span style="color: #268bd2;">{</span> <span style="color: #b58900;">double</span> <span style="color: #839496;">x</span><span style="color: #d33682;">[</span><span style="color: #d33682; font-weight: bold;">2</span><span style="color: #d33682;">]</span>; <span style="color: #268bd2;">}</span>
+
+<span style="color: #859900; font-weight: bold;">using</span> <span style="color: #b58900;">QuadraticSolution</span> = <span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">NoSolutions</span>, <span style="color: #b58900;">OneSolution</span>, <span style="color: #b58900;">TwoSolutions</span><span style="color: #268bd2;">&gt;</span>;
+
+<span style="color: #b58900;">QuadraticSolution</span> <span style="color: #268bd2;">solveInRealDomain</span><span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">QuadraticEquation</span>&amp; <span style="color: #839496;">eq</span><span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+
+<div class="NOTES">
+<p>
+Real solutions to quadratic equations are a great use-case for variant. We can legitimately
+have three alternatives in the return value and variant allows us to express this
+precisely in the return type of our function.
+Variant with all the correctness guarantees and ease of use it offers is a something
+you can use in an API without giving it a second thought. Unions on the other hand are something you&rsquo;d
+probably want to hide in the deepest internals of your project and shouln&rsquo;t even dream of using it in an interface.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0dabbcf" class="outline-2">
+<h2 id="org0dabbcf">Variant can be weird</h2>
+<div class="outline-text-2" id="text-org0dabbcf">
+<p>
+Weird, in this case, means holding the same type more than once.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #b58900;">int</span>, <span style="color: #b58900;">float</span>, <span style="color: #b58900;">float</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">a_weird_variant</span>;
+<span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #b58900;">float</span>, <span style="color: #b58900;">double</span>, <span style="color: #b58900;">char</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">a_regular_variant</span>;
+</pre>
+</div>
+
+<div class="NOTES">
+<p>
+A regular variant allows for more natural access and assignment, let&rsquo;s examine this first.
+This terminology - regular and weird - is, of course, my own invention, but I hope you&rsquo;ll find it
+useful.
+</p>
+
+</div>
+</div>
+
+<div id="outline-container-orgfe00f7b" class="outline-3">
+<h3 id="orgfe00f7b">Regular variant assigment</h3>
+<div class="outline-text-3" id="text-orgfe00f7b">
+<p>
+We&rsquo;ve seen this before
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+v = <span style="color: #d33682; font-weight: bold;">7</span>;
+<span style="color: #405A61;">// </span><span style="color: #405A61;">variant now holds an int</span>
+v = <span style="color: #2aa198;">"abc"</span>;
+<span style="color: #405A61;">// </span><span style="color: #405A61;">variant now holds a string</span>
+</pre>
+</div>
+
+<div class="NOTES">
+<p>
+If the compiler can match the type of what you&rsquo;re assigning with one of the alternatives inside variant,
+the assignment looks exactly as you would expect.
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9c75671" class="outline-3">
+<h3 id="org9c75671">Call <code>std::get</code> to get what you want</h3>
+<div class="outline-text-3" id="text-org9c75671">
+<p>
+Regular variant can use <code>std::get&lt;Type&gt;</code> to get the value.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span> = <span style="color: #d33682; font-weight: bold;">42</span>;
+
+<span style="color: #b58900;">int</span> <span style="color: #839496;">x</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #268bd2;">&gt;(</span>v<span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a28daf" class="outline-3">
+<h3 id="org3a28daf">If types don&rsquo;t match, <code>std::get</code> throws</h3>
+<div class="outline-text-3" id="text-org3a28daf">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span> = <span style="color: #d33682; font-weight: bold;">42</span>;
+
+<span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #839496;">s</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span><span style="color: #268bd2;">&gt;(</span>v<span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+
+<p>
+Will throw <code>std::bad_variant_access</code> exception.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc9bfce1" class="outline-3">
+<h3 id="orgc9bfce1">Exception can be avoided</h3>
+<div class="outline-text-3" id="text-orgc9bfce1">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span> = <span style="color: #d33682; font-weight: bold;">42</span>;
+
+<span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span>* <span style="color: #839496;">ps</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get_if<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span><span style="color: #268bd2;">&gt;(</span>v<span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+
+<p>
+Returns a <code>nullptr</code> when variant holds different alternative.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org37ee039" class="outline-3">
+<h3 id="org37ee039">Weird variants can&rsquo;t assign with <code>=</code></h3>
+<div class="outline-text-3" id="text-org37ee039">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #b58900;">int</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+v = <span style="color: #d33682; font-weight: bold;">7</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">which int do we mean?!</span>
+</pre>
+</div>
+
+<p>
+This will actually fail to compile - <code>operator=(int)</code> is removed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcc1c4dc" class="outline-3">
+<h3 id="orgcc1c4dc">Weird variants do it with <code>emplace</code></h3>
+<div class="outline-text-3" id="text-orgcc1c4dc">
+<p>
+Each alternative type in the variant is actually enumerated by a counter (starting from 0).
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #b58900;">int</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+v.emplace<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">0</span><span style="color: #268bd2;">&gt;(</span><span style="color: #d33682; font-weight: bold;">7</span><span style="color: #268bd2;">)</span>;
+<span style="color: #405A61;">// </span><span style="color: #405A61;">...</span>
+v.emplace<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">1</span><span style="color: #268bd2;">&gt;(</span><span style="color: #d33682; font-weight: bold;">42</span><span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge8fb92d" class="outline-3">
+<h3 id="orge8fb92d">Weird variants call <code>get</code> with numbers</h3>
+<div class="outline-text-3" id="text-orge8fb92d">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #b58900;">int</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+v.emplace<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">1</span><span style="color: #268bd2;">&gt;(</span><span style="color: #d33682; font-weight: bold;">42</span><span style="color: #268bd2;">)</span>;
+<span style="color: #b58900;">int</span> <span style="color: #839496;">x</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">1</span><span style="color: #268bd2;">&gt;(</span>v<span style="color: #268bd2;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">x == 42</span>
+
+<span style="color: #b58900;">int</span> <span style="color: #839496;">y</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">0</span><span style="color: #268bd2;">&gt;(</span>v<span style="color: #268bd2;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">will throw an exception</span>
+
+<span style="color: #405A61;">// </span><span style="color: #405A61;">std::get&lt;int&gt;(v); ambiguous, will not compile</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3c7c6da" class="outline-3">
+<h3 id="org3c7c6da">Weird variant operations also work for regular variant</h3>
+<div class="outline-text-3" id="text-org3c7c6da">
+<p>
+But not the other way round.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35a9c79" class="outline-3">
+<h3 id="org35a9c79">Variant has index</h3>
+<div class="outline-text-3" id="text-org35a9c79">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+v = <span style="color: #d33682; font-weight: bold;">7</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v.index<span style="color: #d33682;">()</span> == <span style="color: #d33682; font-weight: bold;">0</span><span style="color: #268bd2;">)</span>;
+<span style="color: #405A61;">// </span><span style="color: #405A61;">variant now holds an int</span>
+v = <span style="color: #2aa198;">"abc"</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v.index<span style="color: #d33682;">()</span> == <span style="color: #d33682; font-weight: bold;">1</span><span style="color: #268bd2;">)</span>;
+<span style="color: #405A61;">// </span><span style="color: #405A61;">variant now holds a string</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1960e4d" class="outline-3">
+<h3 id="org1960e4d">Regular variant can also check like this</h3>
+<div class="outline-text-3" id="text-org1960e4d">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+
+<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">(</span><span style="color: #d33682; font-weight: bold;">std</span>::holds_alternative<span style="color: #d33682;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #d33682;">&gt;(</span>v<span style="color: #d33682;">)</span><span style="color: #268bd2;">)</span> <span style="color: #268bd2;">{</span>
+  <span style="color: #b58900;">int</span> <span style="color: #839496;">x</span> = <span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #d33682;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #d33682;">&gt;(</span>v<span style="color: #d33682;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">safe to call this</span>
+<span style="color: #268bd2;">}</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge74d95d" class="outline-3">
+<h3 id="orge74d95d">Variant is never empty</h3>
+<div class="outline-text-3" id="text-orge74d95d">
+<p>
+Variant default constructs with the zero-th alternative&rsquo;s constructor
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v1</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v1.index<span style="color: #d33682;">()</span> == <span style="color: #d33682; font-weight: bold;">0</span><span style="color: #268bd2;">)</span>
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span><span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #d33682;">&lt;</span><span style="color: #b58900;">int</span><span style="color: #d33682;">&gt;(</span>v1<span style="color: #d33682;">)</span> == <span style="color: #d33682; font-weight: bold;">0</span><span style="color: #268bd2;">)</span>;
+
+<span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::string, <span style="color: #b58900;">int</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v2</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v2.index<span style="color: #d33682;">()</span> == <span style="color: #d33682; font-weight: bold;">0</span><span style="color: #268bd2;">)</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span><span style="color: #d33682; font-weight: bold;">std</span>::get<span style="color: #d33682;">&lt;</span><span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #d33682;">&gt;(</span>v2<span style="color: #d33682;">)</span> == <span style="color: #2aa198;">""</span><span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org02c4013" class="outline-3">
+<h3 id="org02c4013">But if I really want an empty variant?</h3>
+<div class="outline-text-3" id="text-org02c4013">
+<p>
+Use <code>std::monostate</code> as one of the types.
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">monostate</span> <span style="color: #268bd2;">{}</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">A type with only one value.</span>
+</pre>
+</div>
+
+<p>
+In addition <code>std::monostate</code> provides all relational operators and specialized <code>std::hash</code>.
+</p>
+
+<div class="NOTES">
+<p>
+Monostate provides an idomatic way of expressing an empty alternative in variant, that works
+well with relational operators etc.
+It&rsquo;s also default constructible, so can be used to make the entire variant default constructible.
+</p>
+
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org395a9ef" class="outline-3">
+<h3 id="org395a9ef">Relational operators, you say?</h3>
+<div class="outline-text-3" id="text-org395a9ef">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">int</span>, <span style="color: #d33682; font-weight: bold;">std</span>::string<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v1</span>, <span style="color: #839496;">v2</span>, <span style="color: #839496;">v3</span>, <span style="color: #839496;">v4</span>;
+v1 = <span style="color: #d33682; font-weight: bold;">10</span>;
+v2 = <span style="color: #d33682; font-weight: bold;">11</span>;
+v3 = <span style="color: #2aa198;">"abc"</span>;
+v4 = <span style="color: #2aa198;">"abb"</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v1 &lt; v2<span style="color: #268bd2;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">two ints, v2 is larger</span>
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v2 &lt; v3<span style="color: #268bd2;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">int and string, string is second in type definition</span>
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v3 &gt; v4<span style="color: #268bd2;">)</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">string and string; v4 is first alphabetically</span>
+<span style="color: #d33682; font-weight: bold;">ASSERT_FALSE</span><span style="color: #268bd2;">(</span>v1 == v3<span style="color: #268bd2;">)</span>;
+<span style="color: #d33682; font-weight: bold;">ASSERT_TRUE</span><span style="color: #268bd2;">(</span>v1 != v4<span style="color: #268bd2;">)</span>;
+</pre>
+</div>
+
+<div class="NOTES">
+<p>
+If all the types inside the variant provide comparison operators (<code>==</code>, <code>&lt;</code>, etc.),
+then entire variant also provides such operations. Comparison use lexicographical
+ordering when two variants hold diffent types.
+When any of the types inside a variant is missing a relational operator and such operator
+is used for the entire variant, the program&rsquo;s behaviour in c++17 is undefined.
+C++20 upgraded this requirement to having such program fail to compile.
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7148604" class="outline-2">
+<h2 id="org7148604">Boost has a variant too</h2>
+<div class="outline-text-2" id="text-org7148604">
+<p>
+And it&rsquo;s very similiar to the standard one&#x2026;
+</p>
+
+<div class="NOTES">
+<p>
+Actually the standard variant was pretty much modeled after the boost variant.
+Standard variant is therefore very similiar, but has cleaner interface -
+it was able to utilize all the new convenience features of C++11, C++14, and C++17.
+Boost variant on the other hand is older than C++11, so it had to rely on obscure TMP tricks
+instead of the modernized language. So if you have a choice, standard is the way to go.
+</p>
+
+<p>
+Boost variant and standard variant are very similiar, but have one interesting technical difference.
+</p>
+
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd2e8ce6" class="outline-2">
+<h2 id="orgd2e8ce6">Bonus content ahead</h2>
+</div>
+
+<div id="outline-container-orgd4f80a1" class="outline-2">
+<h2 id="orgd4f80a1">Main difference between <code>boost</code> and <code>std</code></h2>
+<div class="outline-text-2" id="text-orgd4f80a1">
+<p>
+Both types guarantee to - in general - always hold some value, but
+</p>
+<ul class="org-ul">
+<li><code>boost::variant</code> will never become become value-less but may allocate memory</li>
+<li><code>std::variant</code> will never allocate memory but may become &rsquo;value-less by exception&rsquo;</li>
+</ul>
+<p>
+When does one allocate and the other become value-less?
+</p>
+</div>
+</div>
+
+<div id="outline-container-org25a9956" class="outline-2">
+<h2 id="org25a9956">In exceptional circumstances</h2>
+<div class="outline-text-2" id="text-org25a9956">
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">C1</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">some nontrivial class</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">C2</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">some other nontrivial class</span>
+
+<span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span><span style="color: #b58900;">C1</span>, <span style="color: #b58900;">C2</span><span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">default-constructed instance of C1</span>
+v = C2<span style="color: #268bd2;">{</span><span style="color: #405A61;">/*</span><span style="color: #405A61;">...</span><span style="color: #405A61;">*/</span><span style="color: #268bd2;">}</span>; <span style="color: #405A61;">// </span><span style="color: #405A61;">&lt;- What has to happen here?</span>
+
+<span style="color: #405A61;">// </span><span style="color: #405A61;">Let's unpack the line above:</span>
+
+~<span style="color: #268bd2;">C1</span><span style="color: #268bd2;">()</span> <span style="color: #405A61;">// </span><span style="color: #405A61;">v no longer holds value of type C1</span>
+<span style="color: #268bd2;">C2</span><span style="color: #268bd2;">(</span><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">C2</span>&amp;<span style="color: #268bd2;">)</span> <span style="color: #405A61;">// </span><span style="color: #405A61;">copy (or move) constuctor of C2 is called</span>
+</pre>
+</div>
+
+<p>
+And now <code>C2(const C2&amp;)</code> decided to throw an exception!
+</p>
+</div>
+</div>
+
+<div id="outline-container-org44a9172" class="outline-2">
+<h2 id="org44a9172">Two ways to go about it</h2>
+<div class="outline-text-2" id="text-org44a9172">
+<p>
+<code>boost::variant</code> will actually copy (or move) the value of <code>C1</code> to temporary storage.
+This storage is allocated on the heap. When an exception is thrown, the value of type <code>C1</code> is restored.
+</p>
+
+<p>
+<code>std::variant</code> guarantees never to allocate. That&rsquo;s when it enters the &rsquo;value-less by exception&rsquo; state - which essentially means that such object is broken - and there&rsquo;s even a member function to check this:
+</p>
+<div class="org-src-container">
+<pre class="src src-c++"><span style="color: #d33682; font-weight: bold;">std</span>::<span style="color: #b58900;">variant</span><span style="color: #268bd2;">&lt;</span>C1, C2<span style="color: #268bd2;">&gt;</span> <span style="color: #839496;">v</span>;
+<span style="color: #b58900;">bool</span> <span style="color: #839496;">broken</span> = v.valueless_by_exception<span style="color: #268bd2;">()</span>;
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+</body>
+</html>
